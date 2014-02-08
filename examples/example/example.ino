@@ -1,7 +1,7 @@
 #include "POLOLUMC33926.h"
 
-//
-MC33926 left_motor(2,3,4,5);
+
+MC33926 left_motor(2,3,5,4);
 MC33926 right_motor(12,11,10,9);
 
 void setup()
