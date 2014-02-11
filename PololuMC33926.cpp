@@ -2,14 +2,24 @@
 
 
 // Constructor
-MC33926::MC33926(int DIR1,int DIR2, int PWM, int SF)
-{
-	DIR1_ = DIR1;
-	DIR2_ = DIR2;
-	PWM_ = PWM;
-	SF_ = SF;
-}
-
+#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(_SAM3XA_)
+	MC33926::MC33926(int DIR1,int DIR2, int PWM, int SF)
+	{
+		DIR1_ = DIR1;
+		DIR2_ = DIR2;
+		PWM_ = PWM;
+		SF_ = SF;
+	}
+#else
+	MC33926::MC33926(int DIR1,int DIR2, int PWM, int SF, int FB)
+	{
+		DIR1_ = DIR1;
+		DIR2_ = DIR2;
+		PWM_ = PWM;
+		SF_ = SF;
+		FB_ = FB;
+	}
+#endif
 
 void MC33926::init()
 {
@@ -20,6 +30,9 @@ void MC33926::init()
 	pinMode(SF_,INPUT);
 	#if defined(__MK20DX128__) || defined(__MK20DX256__)
 		analogWriteFrequency(PWM_, 11718);
+	#endif
+	#if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
+		pinMode(FB_,INPUT);
 	#endif
 }
 
@@ -50,3 +63,12 @@ bool MC33926::fault()
 	// Checks if there is a fault
 	return !digitalRead(SF_); //Flip logic
 }
+
+#if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
+	float MC33926::motor_current()
+	{
+		// 5V / 10bit resolution / 0.525V/A = 0.0093006 A/count
+		return analogRead(FB_) * 0.0093006; //[Amps]
+	}
+#endif
+
