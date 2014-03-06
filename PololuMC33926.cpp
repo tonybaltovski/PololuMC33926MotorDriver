@@ -3,7 +3,7 @@
 
 // Constructor
 #if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(_SAM3XA_)
-MC33926::MC33926(int DIR1,int DIR2, int PWM, int SF)
+MC33926::MC33926(uchar DIR1,uchar DIR2, uchar PWM, uchar SF)
 {
 	DIR1_ = DIR1;
 	DIR2_ = DIR2;
@@ -11,7 +11,7 @@ MC33926::MC33926(int DIR1,int DIR2, int PWM, int SF)
 	SF_ = SF;
 }
 #else
-MC33926::MC33926(int DIR1,int DIR2, int PWM, int SF, int FB)
+MC33926::MC33926(uchar DIR1,uchar DIR2, uchar PWM, uchar SF, uchar FB)
 {
 	DIR1_ = DIR1;
 	DIR2_ = DIR2;
@@ -66,10 +66,10 @@ bool MC33926::fault()
 }
 
 #if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
-float MC33926::motor_current()
+int MC33926::motor_current()
 {
-	// 5V / 10bit resolution / 0.525V/A = 0.0093006 A/count
-	return analogRead(FB_) * 0.0093006; //[Amps]
+	// 5V / 10bit resolution / 0.525V/A = 0.0093006 A/count ~= 93 mA/count
+	return analogRead(FB_) * 93; //[mA]
 }
 #endif
 
