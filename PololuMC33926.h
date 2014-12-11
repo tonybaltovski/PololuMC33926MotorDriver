@@ -1,37 +1,35 @@
-#ifndef POLOLU_MC33926_h
-#define POLOLU_MC33926_h
+#ifndef POLOLU_MC33926_H
+#define POLOLU_MC33926_H
 
 #include <Arduino.h>
 
-typedef unsigned char uchar;
-
 class MC33926
 {
-	public: 
-	// Constructors
-	#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(_SAM3XA_)
-	//Teensy 3.X and Arduino Due analog pins cannot take 5V
-	MC33926(uchar DIR1, uchar DIR2,uchar PWM, uchar SF); 
-	#else
-	MC33926(uchar DIR1, uchar DIR2,uchar PWM, uchar SF, uchar FB); 
-	#endif		
-	// Public functions
-	void init(); // Initializes the pins
-	void set_pwm(int desired_pwm);  //Sets the desired PWM value
-	bool fault();  // Checks for an fault and returns true if there is one
-	#if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
-	int motor_current();
-	#endif
+  public:
+ // Constructors
+  #if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(_SAM3XA_)
+  // Teensy 3.X and Arduino Due analog pins cannot take 5V
+  MC33926(uint8_t DIR1, uint8_t DIR2,uint8_t PWM, uint8_t SF);
+  #else
+  MC33926(uint8_t DIR1, uint8_t DIR2,uint8_t PWM, uint8_t SF, uint8_t FB);
+  #endif
+  // Public functions
+  void init();  // Initializes the pins
+  void set_pwm(int desired_pwm);  // Sets the desired PWM value
+  bool fault();  // Checks for an fault and returns true if there is one
+  #if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
+  int motor_current();
+  #endif
 
-	private:
-	// Private variables
-	uchar DIR1_;
-	uchar DIR2_;
-	uchar PWM_;
-	uchar SF_;
-	#if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
-	uchar FB_;
-	#endif
+  private:
+  // Private variables
+  uint8_t DIR1_;
+  uint8_t DIR2_;
+  uint8_t PWM_;
+  uint8_t SF_;
+  #if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
+  uint8_t FB_;
+  #endif
 };
 
-#endif
+#endif  // POLOLU_MC33926_H
