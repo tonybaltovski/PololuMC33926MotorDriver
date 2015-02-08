@@ -17,12 +17,13 @@ class MC33926
   void init();  // Initializes the pins
   void set_pwm(int desired_pwm);  // Sets the desired PWM value
   bool fault();  // Checks for an fault and returns true if there is one
+  void flip_motor_direction();
   #if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
   int motor_current();
   #endif
 
   private:
-  // Private variables
+  // Private pin variables
   uint8_t DIR1_;
   uint8_t DIR2_;
   uint8_t PWM_;
@@ -30,6 +31,8 @@ class MC33926
   #if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
   uint8_t FB_;
   #endif
+  // Private variables
+  int8_t invert_direction_;
 };
 
 #endif  // POLOLU_MC33926_H

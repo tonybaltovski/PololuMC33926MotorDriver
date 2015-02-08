@@ -35,8 +35,13 @@ void MC33926::init()
   #if !defined(__MK20DX128__) || !defined(__MK20DX256__) || !defined(_SAM3XA_)
   pinMode(FB_,INPUT);
   #endif
+  invert_direction_ = 1;
 }
 
+void MC33926::flip_motor_direction()
+{
+  invert_direction_ *= -1;
+}
 
 void MC33926::set_pwm(int desired_pwm)
 {
@@ -47,15 +52,15 @@ void MC33926::set_pwm(int desired_pwm)
     digitalWrite(DIR2_,HIGH);
     if (desired_pwm < -255)
       desired_pwm = -255;
-    analogWrite(PWM_,-1*desired_pwm);
+    analogWrite(PWM_, invert_direction_ * -1 * desired_pwm);
   }
   else
     {
-    digitalWrite(DIR2_,LOW);
     digitalWrite(DIR1_,HIGH);
+    digitalWrite(DIR2_,LOW);
     if (desired_pwm > 255)
       desired_pwm = 255;
-    analogWrite(PWM_,desired_pwm);
+    analogWrite(PWM_, invert_direction_ * desired_pwm);
   }
 }
 
