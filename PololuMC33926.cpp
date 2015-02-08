@@ -55,7 +55,7 @@ void MC33926::set_pwm(int16_t desired_pwm)
     analogWrite(PWM_, invert_direction_ * -1 * desired_pwm);
   }
   else
-    {
+  {
     digitalWrite(DIR1_,HIGH);
     digitalWrite(DIR2_,LOW);
     if (desired_pwm > 255)
