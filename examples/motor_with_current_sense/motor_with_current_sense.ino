@@ -7,6 +7,7 @@ void setup()
 {
   Serial.begin(9600);
   motor.init();
+  motor.flip_motor_direction();
 }
 
 void loop()
