@@ -46,13 +46,13 @@ void MC33926::flip_motor_direction()
 void MC33926::set_pwm(int16_t desired_pwm)
 {
   // Sets the pwm value.  Will take negative pwm values.
-  if (desired_pwm < 0)
+  if ((desired_pwm * invert_direction_) < 0)
   {
     digitalWrite(DIR1_,LOW);
     digitalWrite(DIR2_,HIGH);
     if (desired_pwm < -255)
       desired_pwm = -255;
-    analogWrite(PWM_, invert_direction_ * -1 * desired_pwm);
+    analogWrite(PWM_, -1 * desired_pwm * invert_direction_);
   }
   else
   {
@@ -60,7 +60,7 @@ void MC33926::set_pwm(int16_t desired_pwm)
     digitalWrite(DIR2_,LOW);
     if (desired_pwm > 255)
       desired_pwm = 255;
-    analogWrite(PWM_, invert_direction_ * desired_pwm);
+    analogWrite(PWM_, desired_pwm * invert_direction_);
   }
 }
 
